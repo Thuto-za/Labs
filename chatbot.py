@@ -10,7 +10,7 @@ load_dotenv()
 
 # Initialize Gemini LLM model (Google Generative AI)
 api_key = os.getenv("GOOGLE_API_KEY")  # Ensure you set this environment variable
-llm = GoogleGenerativeAI(model="gemini-pro", api_key="AIzaSyCJt5VN-Ipv8OYMPlxqRNVZWmxTspcSCu4")
+llm = GoogleGenerativeAI(model="gemini-pro", api_key="")
 
 # List of emojis to add some liveliness to responses
 emojis = ['😄', '😊', '🤖', '📄', '✨', '💬', '📚', '👍', '🤔', '✅', '👀', '🤓']

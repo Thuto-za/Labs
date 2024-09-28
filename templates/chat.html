@@ -4,18 +4,66 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <title>Mwanga Chat</title>
     <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-qrcode/1.0/jquery.qrcode.min.js"></script>
+    <style>
+        /* Basic modal styles */
+        #modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1000; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+        #modal-content {
+            background-color: #fefefe;
+            margin: 15% auto; /* 15% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; /* Could be more or less, depending on screen size */
+        }
+        #close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        #close:hover,
+        #close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
     <div id="container">
-    <h1>Mwanga Chatbot</h1>
-    <div id="chatbox">
-        <div id="messages"></div>
-        <input id="user_input" type="text" placeholder="Ask a question...">
-        <button id="send_button">Send</button>
+        <h1>Mwanga Chatbot</h1>
+        <div id="chatbox">
+            <div id="messages"></div>
+            <input id="user_input" type="text" placeholder="Ask a question...">
+            <button id="send_button">Send</button>
+            <button id="share_button">Share on WhatsApp</button> <!-- New share button -->
+        </div>
     </div>
+
+    <!-- Modal for sharing -->
+    <div id="modal">
+        <div id="modal-content">
+            <span id="close">&times;</span>
+            <h2>Share this link</h2>
+            <input type="text" id="share_link" value="http://wa.me/+14155238886?text=join%20melted-someone" readonly>
+            <button id="copy_button">Copy Link</button>
+            <div id="qrcode"></div> <!-- QR code will be displayed here -->
+        </div>
     </div>
 
     <script>
@@ -34,6 +82,32 @@
             newMessage.textContent = "Mwanga: " + response;
             messages.appendChild(newMessage);
         });
+
+        // Share button functionality
+        document.getElementById('share_button').addEventListener('click', function() {
+            document.getElementById('modal').style.display = "block";
+            $('#qrcode').qrcode({width: 128, height: 128, text: document.getElementById('share_link').value});
+        });
+
+        // Copy link functionality
+        document.getElementById('copy_button').addEventListener('click', function() {
+            const copyText = document.getElementById("share_link");
+            copyText.select();
+            document.execCommand("copy");
+            alert("Link copied to clipboard!");
+        });
+
+        // Close modal functionality
+        document.getElementById('close').onclick = function() {
+            document.getElementById('modal').style.display = "none";
+        }
+
+        // Close modal when clicking outside of it
+        window.onclick = function(event) {
+            if (event.target == document.getElementById('modal')) {
+                document.getElementById('modal').style.display = "none";
+            }
+        }
     </script>
 </body>
 </html>
