@@ -4,16 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <title>Mwanga Chat</title>
     <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.js"></script>
 </head>
 <body>
+    <div id="container">
     <h1>Mwanga Chatbot</h1>
     <div id="chatbox">
         <div id="messages"></div>
         <input id="user_input" type="text" placeholder="Ask a question...">
         <button id="send_button">Send</button>
+    </div>
     </div>
 
     <script>

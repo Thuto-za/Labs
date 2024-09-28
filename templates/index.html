@@ -1,28 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Upload PDF & Start Chat</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload PDF & Start Chat</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
 <body>
-    <h1>Welcome to Mwanga Chatbot</h1>
-    <form action="/" method="POST" enctype="multipart/form-data">
-        <label for="name">Your Name:</label>
-        <input type="text" name="name" required><br><br>
+    <div class="container">
+        <h1>ThutoLabs</h1>
+        <form action="/" method="POST" enctype="multipart/form-data">
+            <label for="name">Your Name:</label>
+            <input type="text" name="name" required><br><br>
 
-        <label for="company">Company Name:</label>
-        <input type="text" name="company" required><br><br>
+            <label for="company">Company Name:</label>
+            <input type="text" name="company" required><br><br>
 
-        <label for="business_sector">Business Sector:</label>
-        <input type="text" name="business_sector" required><br><br>
+            <label for="business_sector">Business Sector:</label>
+            <input type="text" name="business_sector" required><br><br>
 
-        <label for="pdf_file">Upload PDF:</label>
-        <input type="file" name="pdf_file" accept=".pdf" required><br><br>
+            <label for="pdf_file">Upload PDF:</label>
+            <input type="file" name="pdf_file" accept=".pdf" required><br><br>
 
-        <button type="submit">Start Chat</button>
-    </form>
+            <button type="submit">Start Chat</button>
+        </form>
+    </div>
 </body>
 </html>

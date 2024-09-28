@@ -44,10 +44,12 @@ class MwangaChatbot:
             return ""
 
     def query_pdf(self, user_query):
-        """Use Gemini LLM to answer queries based on PDF content."""
+        """Try to answer queries based on PDF content, fallback to Gemini LLM if necessary."""
+        print("Calling action")
         if not self.pdf_text:
             return "Oops! Couldn't load the PDF content 😕."
 
+        # Prompt to ask based on PDF content
         prompt = f"""
         You are Mwanga, a helpful assistant for product inquiries. The user is asking: '{user_query}'.
         Use the following PDF content for context:
@@ -60,9 +62,32 @@ class MwangaChatbot:
         
         try:
             response = llm.invoke(prompt)
+            if self._is_response_relevant(response):
+                return self._format_response(response.strip())
+            else:
+                # Fallback to a general answer from Gemini model
+                return self.ask_gemini(user_query)
+        except Exception as e:
+            return f"Oops, something went wrong 🤖. Error: {e}"
+
+    def ask_gemini(self, user_query):
+        """Fallback: Ask the Gemini model for a general answer if PDF doesn't have the answer."""
+        fallback_prompt = f"""
+        You are a highly knowledgeable assistant. The user is asking: '{user_query}'.
+        Since the provided PDF content doesn't have enough information, provide a general and accurate response.
+        """
+        try:
+            response = llm.invoke(fallback_prompt)
             return self._format_response(response.strip())
         except Exception as e:
             return f"Oops, something went wrong 🤖. Error: {e}"
+
+    def _is_response_relevant(self, response):
+        """Check if the response generated from the PDF content is relevant or not."""
+        # Simple heuristic: check if the response is too generic or empty
+        if "I'm not sure" in response or len(response.strip()) < 20:
+            return False
+        return True
 
     def _format_response(self, response):
         """Format chatbot responses with fun and friendly tone."""
