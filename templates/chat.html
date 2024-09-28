@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Mwanga Chat</title>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.js"></script>
+</head>
+<body>
+    <h1>Mwanga Chatbot</h1>
+    <div id="chatbox">
+        <div id="messages"></div>
+        <input id="user_input" type="text" placeholder="Ask a question...">
+        <button id="send_button">Send</button>
+    </div>
+
+    <script>
+        const socket = io();
+
+        document.getElementById('send_button').addEventListener('click', function() {
+            const userMessage = document.getElementById('user_input').value;
+            socket.emit('user_message', { message: userMessage });
+            document.getElementById('user_input').value = ''; // clear input
+        });
+
+        socket.on('bot_response', function(json) {
+            const response = json.response;
+            const messages = document.getElementById('messages');
+            const newMessage = document.createElement('div');
+            newMessage.textContent = "Mwanga: " + response;
+            messages.appendChild(newMessage);
+        });
+    </script>
+</body>
+</html>

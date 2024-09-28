@@ -1,0 +1,106 @@
+/* General styles */
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    color: #333;
+    padding: 20px;  /* Adds padding to the sides */
+}
+
+/* Container for content */
+.container {
+    width: 50%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+/* Header styling */
+h1 {
+    color: #4CAF50;
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: 600;  /* Bolder heading */
+}
+
+/* Form styles */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+label {
+    font-weight: 500;  /* Slightly bolder labels */
+}
+
+input[type="text"],
+input[type="file"],
+input[type="submit"],
+button {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    font-family: 'Montserrat', sans-serif;
+}
+
+input[type="submit"],
+button {
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+input[type="submit"]:hover,
+button:hover {
+    background-color: #45a049;
+}
+
+/* Chat box styling */
+#chatbox {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#messages {
+    height: 300px;
+    overflow-y: auto;
+    padding: 10px;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+#user_input {
+    padding: 10px;
+    width: calc(100% - 60px); /* Adjust for button size */
+    margin-right: 10px;
+}
+
+#send_button {
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#send_button:hover {
+    background-color: #45a049;
+}
+
+/* Responsiveness
