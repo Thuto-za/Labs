@@ -10,7 +10,7 @@ load_dotenv()
 
 # Initialize Gemini LLM model (Google Generative AI)
 api_key = os.getenv("GOOGLE_API_KEY")  # Ensure you set this environment variable
-llm = GoogleGenerativeAI(model="gemini-pro", api_key="")
+llm = GoogleGenerativeAI(model="gemini-pro", api_key="AIzaSyCJt5VN-Ipv8OYMPlxqRNVZWmxTspcSCu4")
 
 # List of emojis to add some liveliness to responses
 emojis = ['😄', '😊', '🤖', '📄', '✨', '💬', '📚', '👍', '🤔', '✅', '👀', '🤓']
@@ -40,7 +40,7 @@ class MwangaChatbot:
     def query_pdf(self, user_query):
         """Use Gemini LLM to answer the query based on the PDF content."""
         if not self.pdf_text:
-            return f"Oops! It looks like I can't find the PDF content 😕. Let's make sure it's properly loaded."
+            return self.query_gemini(user_query, pdf_found=False)
 
         # Define the prompt for the LLM based on user query and PDF content
         prompt = f"""
@@ -54,9 +54,33 @@ class MwangaChatbot:
         """
         
         try:
-            # Call the Google Generative AI (Gemini LLM) to process the query
-            response = llm.invoke(prompt)
-            return self._format_response(response.strip())
+            # Call the Google Generative AI (Gemini LLM) to process the query based on the PDF content
+            response = llm.invoke(prompt).strip()
+            if not response:
+                # If the PDF response isn't helpful, fall back to Gemini LLM
+                return self.query_gemini(user_query)
+            return self._format_response(response)
+        except Exception as e:
+            return f"Oops, something went wrong when I tried to look for an answer 🤖 {get_random_emoji()}. Here's the error: {e}"
+
+    def query_gemini(self, user_query, pdf_found=True):
+        """Use the Gemini LLM to answer a query directly if the PDF doesn't contain the answer."""
+        if not pdf_found:
+            # If PDF content is missing or can't be loaded, inform the user
+            response_intro = "It looks like I couldn't load the PDF content. Let me still try to help you out 📄."
+        else:
+            # If PDF content was there but didn't provide enough context
+            response_intro = "It seems I couldn't find relevant information in the PDF, but I can still help! 😊"
+
+        # Fallback prompt to answer the question using the LLM directly
+        fallback_prompt = f"""
+        You are Mwanga, a helpful assistant. The user is asking about: '{user_query}'.
+        Please respond with helpful and detailed information, even though no PDF content was found.
+        """
+        try:
+            # Get a response from Gemini LLM
+            response = llm.invoke(fallback_prompt).strip()
+            return f"{response_intro}\n\n{self._format_response(response)}"
         except Exception as e:
             return f"Oops, something went wrong when I tried to look for an answer 🤖 {get_random_emoji()}. Here's the error: {e}"
 
